@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { db } from '../lib/dpaste';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 
-export function SubmitForm() {
+interface SubmitFormProps {
+  onSuccess?: () => void;
+}
+
+export function SubmitForm({ onSuccess }: SubmitFormProps) {
   const [titulo, setTitulo] = useState('');
   const [conteudo, setConteudo] = useState('');
   const [autor, setAutor] = useState('');
@@ -37,7 +41,12 @@ export function SubmitForm() {
       setConteudo('');
       setAutor('');
 
-      setTimeout(() => setSuccess(false), 5000);
+      setTimeout(() => {
+        setSuccess(false);
+        if (onSuccess) {
+          onSuccess();
+        }
+      }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao enviar manifesto');
     } finally {

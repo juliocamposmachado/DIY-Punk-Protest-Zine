@@ -58,8 +58,12 @@ function App() {
 
       <div className="pt-20">
         {currentPage === 'cover' && <ZineCover />}
-        {currentPage === 'gallery' && <ManifestoGallery />}
-        {currentPage === 'submit' && <SubmitForm />}
+        {currentPage === 'gallery' && <ManifestoGallery key={currentPage} />}
+        {currentPage === 'submit' && (
+          <SubmitForm
+            onSuccess={() => setCurrentPage('gallery')}
+          />
+        )}
       </div>
 
       <footer className="border-t-2 border-white bg-black noise-bg py-6">
