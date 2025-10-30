@@ -25,11 +25,11 @@ git clone https://github.com/juliocamposmachado/DIY-Punk-Protest-Zine.git
 # Acesse a pasta do projeto
 cd DIY-Punk-Protest-Zine
 
-<img width="1234" height="823" alt="image" src="https://github.com/user-attachments/assets/c460c34c-41c9-4e70-a083-9bd518151fdc" />
-
-
 # Instale as dependências
 npm install
 
 # Inicie o servidor de desenvolvimento
 npm run dev
+```
+<img width="1234" height="823" alt="image" src="https://github.com/user-attachments/assets/241a8f26-6f54-4741-a666-4c1ad699f54e" />
+
