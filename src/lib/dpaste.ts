@@ -74,19 +74,29 @@ class DPasteDatabase {
   }
 
   async saveIndex(): Promise<void> {
-    const formData = new FormData();
-    formData.append('content', JSON.stringify(this.index, null, 2));
-    formData.append('syntax', 'json');
-    formData.append('expiry_days', '365');
+    const indexContent = JSON.stringify(this.index, null, 2);
+    const params = new URLSearchParams();
+    params.append('content', indexContent);
+    params.append('syntax', 'json');
+    params.append('expiry_days', '365');
 
     try {
-      const response = await this.makeRequest('/api/v2/', {
+      const response = await fetch(`${this.baseUrl}/api/v2/`, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
       });
 
-      if (response.url) {
-        const pasteId = response.url.split('/').filter(Boolean).pop();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const resultUrl = await response.text();
+
+      if (resultUrl) {
+        const pasteId = resultUrl.trim().split('/').filter(Boolean).pop();
         this.indexId = pasteId;
         localStorage.setItem('dpaste_index_id', pasteId);
       }
@@ -113,19 +123,29 @@ class DPasteDatabase {
       metadata: {},
     };
 
-    const formData = new FormData();
-    formData.append('content', JSON.stringify(record, null, 2));
-    formData.append('syntax', 'json');
-    formData.append('expiry_days', '365');
+    const recordContent = JSON.stringify(record, null, 2);
+    const params = new URLSearchParams();
+    params.append('content', recordContent);
+    params.append('syntax', 'json');
+    params.append('expiry_days', '365');
 
     try {
-      const response = await this.makeRequest('/api/v2/', {
+      const response = await fetch(`${this.baseUrl}/api/v2/`, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
       });
 
-      if (response.url) {
-        const pasteId = response.url.split('/').filter(Boolean).pop();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const resultUrl = await response.text();
+
+      if (resultUrl) {
+        const pasteId = resultUrl.trim().split('/').filter(Boolean).pop();
         record.id = pasteId;
 
         this.index[key] = {
